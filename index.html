@@ -3,16 +3,77 @@
 	<head>
 		<title>Title</title>
 	</head>
+	<style>
+		body, main, #container {
+			width: 98vw;
+			height: 94vh;
+		}
+		#container {
+			display: grid;
+			grid-template-columns: repeat(16, 1fr);
+			grid-template-rows: repeat(16, 1fr);
+			height: 100%;
+			width: 100%;
+		}
+		#pixel {
+			min-height: 1px;
+			min-width: 1px;
+		}
+		#resetButton {
+			display: block;;
+			margin-left: auto;
+			margin-right: auto;
+			margin-bottom: 5px;
+		}
+	</style>
 	<body>
 		<main>
+			<div id="resetButtonDiv">
+				<button id="resetButton">Reset</button>
+			</div>
+			<div id="container">
 
+			</div>
 		</main>
 	</body>
 	<script>
-		const div = document.createElement('div');
-		const main = document.querySelector('main');
-		for (let i = 0; i < 16; i++) {
-			main.appendChild(div);
+		const container = document.querySelector('#container');
+		const reset = document.querySelector('#resetButton');
+		let gridSideLength = 16;
+
+		// Generates pixels in grid
+		function generateGrid(gridSideLength) {
+			// Generates Grid
+			container.style.cssText = `grid-template-columns: repeat(${gridSideLength}, 1fr);`;
+			container.style.cssText = `grid-template-rows: repeat(${gridSideLength}, 1fr);`;
+			
+			// Generates pixels
+			console.log(`Generating ${gridSideLength * gridSideLength} pixels.`);
+			for (let i = 0; i < gridSideLength * gridSideLength; i++) {
+			const div = document.createElement('div');
+			div.setAttribute("id", "pixel");
+			div.textContent = "";
+			container.appendChild(div);
+			}
+			
+			// Sets pixels to respond to mouse.
+			const pixels = document.querySelectorAll('#pixel');
+			pixels.forEach((pixel) => {
+				pixel.addEventListener('mouseover', () => {
+				pixel.style.cssText = "background-color: grey;";
+				})
+			})
 		}
+		generateGrid(gridSideLength);
+
+		
+		// Removes Cells on Reset Click
+		reset.addEventListener('click', () => {
+			while (container.firstChild) {
+				container.removeChild(container.firstChild);
+			}
+			generateGrid(prompt("New Grid Side Length."));
+		});
+
 	</script>
 </html>
