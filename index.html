@@ -9,9 +9,6 @@
 			height: 94vh;
 		}
 		#container {
-			display: grid;
-			grid-template-columns: repeat(16, 1fr);
-			grid-template-rows: repeat(16, 1fr);
 			height: 100%;
 			width: 100%;
 		}
@@ -42,14 +39,13 @@
 		let gridSideLength = 16;
 
 		// Generates pixels in grid
-		function generateGrid(gridSideLength) {
+		function generateGrid(gridInput) {
 			// Generates Grid
-			container.style.cssText = `grid-template-columns: repeat(${gridSideLength}, 1fr);`;
-			container.style.cssText = `grid-template-rows: repeat(${gridSideLength}, 1fr);`;
+			container.style.cssText = `display: grid; grid-template-columns: repeat(${gridInput}, 1fr); grid-template-rows: repeat(${gridInput}, 1fr);`;
 			
 			// Generates pixels
-			console.log(`Generating ${gridSideLength * gridSideLength} pixels.`);
-			for (let i = 0; i < gridSideLength * gridSideLength; i++) {
+			console.log(`Generating ${gridInput * gridInput} pixels.`);
+			for (let i = 0; i < gridInput * gridInput; i++) {
 			const div = document.createElement('div');
 			div.setAttribute("id", "pixel");
 			div.textContent = "";
@@ -60,7 +56,7 @@
 			const pixels = document.querySelectorAll('#pixel');
 			pixels.forEach((pixel) => {
 				pixel.addEventListener('mouseover', () => {
-				pixel.style.cssText = "background-color: grey;";
+				pixel.style.cssText = "background-color: black;";
 				})
 			})
 		}
@@ -72,7 +68,7 @@
 			while (container.firstChild) {
 				container.removeChild(container.firstChild);
 			}
-			generateGrid(prompt("New Grid Side Length."));
+			generateGrid(Math.min(100, prompt("New Grid Side Length.")));
 		});
 
 	</script>
